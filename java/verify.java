@@ -24,7 +24,7 @@ class verify
     //verify() {
     //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     //}
-    int verification(String uname,String upass)
+    int verification(String uname,String upass,String query1)
     {
        
         int flag1=0,flag2=0,flag=0;
@@ -33,7 +33,16 @@ class verify
             String url = "jdbc:mysql://localhost:3306/userlogin";
             String name = "root";
             String pass = "Karan@123";
-            String query = "select * from users"; 
+            String query=null;
+            if(query1.equals("user"))
+            {
+                query = "select * from users"; 
+            }
+            else
+            {
+                query = "select * from admin";
+            }
+            
             
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(url, name, pass);
@@ -44,6 +53,8 @@ class verify
             {
                 String dname = rs.getString(1);
                 String dpass = rs.getString(2);
+                //String email = rs.getString(3);
+                //long mob_no = rs.getLong(4);
                 if(uname.equals(dname))
                 {
                     flag1=1;
@@ -55,9 +66,13 @@ class verify
                 if(flag1==1 && flag2==1)
                 {
                     flag=1;
+                    //new index(dname,email,mob_no);
+                    
                 }
                 
             }
+            conn.close();
+            st.close();
         }
         catch(Exception e)
         {
